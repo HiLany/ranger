@@ -651,9 +651,9 @@ class BaseDB(object):
 							status = subprocess.call(shlex.split(get_java_cmd))
 						elif os_name == "WINDOWS":
 							status = subprocess.call(get_java_cmd)
-						if status == 0 or status==2:
+						if status == 0 or status==2 or status==1:
 							ret = self.execute_update(self.update_patch_status_query(version,'N',client_host))
-							if ret == 0 and status == 0:
+							if ret == 0 and (status == 0 or status==1):
 								log ("[I] Ranger "+ userName +" default password change request processed successfully..","info")
 							elif ret == 0 and status == 2:
 								log ("[I] Ranger "+ userName +" default password change request process skipped!","info")

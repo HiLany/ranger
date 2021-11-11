@@ -68,8 +68,8 @@
     <properties>
         <maven.version.required>3.6.2</maven.version.required>
         <java.version.required>1.8</java.version.required>
-        <javac.source.version>1.8</javac.source.version>
-        <javac.target.version>1.8</javac.target.version>
+        <javac.source.version>11</javac.source.version>
+        <javac.target.version>11</javac.target.version>
         <distMgmtStagingId>apache.staging.https</distMgmtStagingId>
         <distMgmtStagingName>Apache Release Distribution Repository</distMgmtStagingName>
         <distMgmtStagingUrl>https://repository.apache.org/service/local/staging/deploy/maven2</distMgmtStagingUrl>
@@ -169,7 +169,7 @@
         <noggit.version>0.8</noggit.version>
         <owasp-java-html-sanitizer.version>r239</owasp-java-html-sanitizer.version>
         <paranamer.version>2.3</paranamer.version>
-        <presto.version>333</presto.version>
+        <trino.version>359</trino.version>
         <poi.version>4.1.2</poi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <protobuf-java.version>2.5.0</protobuf-java.version>
@@ -199,10 +199,10 @@
         <jna.version>5.2.0</jna.version>
         <jna-platform.version>5.2.0</jna-platform.version>
         <!-- presto plugin deps -->
-        <presto.airlift.version>0.192</presto.airlift.version>
-        <presto.bval-jsr.version>2.0.0</presto.bval-jsr.version>
-        <presto.guice.version>4.2.2</presto.guice.version>
-        <presto.guava.version>26.0-jre</presto.guava.version>
+        <presto.airlift.version>207</presto.airlift.version>
+        <presto.bval-jsr.version>2.0.5</presto.bval-jsr.version>
+        <presto.guice.version>5.0.1</presto.guice.version>
+        <presto.guava.version>30.1.1-jre</presto.guava.version>
         <presto.validation-api.version>2.0.1.Final</presto.validation-api.version>
         <presto.re2j.version>1.1</presto.re2j.version>
 
@@ -909,8 +909,8 @@
                     <configuration>
                         <enunciateArtifactId/>
                         <docsDir>docs/src/site/</docsDir>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>11</source>
+                        <target>11</target>
                     </configuration>
                     <executions>
                         <execution>

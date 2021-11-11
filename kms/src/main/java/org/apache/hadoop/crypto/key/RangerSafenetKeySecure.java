@@ -24,7 +24,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.log4j.Logger;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
@@ -40,7 +39,6 @@ public class RangerSafenetKeySecure implements RangerKMSMKI {
         static final Logger logger = Logger.getLogger(RangerSafenetKeySecure.class);
 
         private final String alias;
-        private final String providerType;
         private KeyStore myStore;
         private final String adp;
         private Provider provider;
@@ -51,13 +49,11 @@ public class RangerSafenetKeySecure implements RangerKMSMKI {
         private static final String CFGFILEPATH = "ranger.kms.keysecure.sunpkcs11.cfg.filepath";
         private static final String MK_KEYSIZE = "ranger.kms.keysecure.masterkey.size";
         private static final String ALIAS = "ranger.kms.keysecure.masterkey.name";
-        private static final String PROVIDER = "ranger.kms.keysecure.provider.type";
         private static final String KEYSECURE_LOGIN = "ranger.kms.keysecure.login";
 
 	public RangerSafenetKeySecure(Configuration conf) throws Exception {
 		mkSize = conf.getInt(MK_KEYSIZE, MK_KeySize);
 		alias = conf.get(ALIAS, "RANGERMK");
-		providerType = conf.get(PROVIDER, "SunPKCS11");
 		adp = conf.get(KEYSECURE_LOGIN);
 		pkcs11CfgFilePath = conf.get(CFGFILEPATH);
 		/*
@@ -69,15 +65,22 @@ public class RangerSafenetKeySecure implements RangerKMSMKI {
 			int javaVersion = getJavaVersion();
 			/*Minimum java requirement for Ranger KMS is Java 8 and Maximum java supported by Ranger KMS is Java 11*/
 			if(javaVersion == 8){
-				provider = new sun.security.pkcs11.SunPKCS11(pkcs11CfgFilePath);
+//				provider = new sun.security.pkcs11.SunPKCS11(pkcs11CfgFilePath);
+                provider = (Provider) Class.forName("sun.security.pkcs11.SunPKCS11")
+                        .getConstructor(String.class)
+                        .newInstance(pkcs11CfgFilePath);
 			}else if(javaVersion == 9 || javaVersion == 10 || javaVersion == 11){
-				Class<Provider> cls = Provider.class;
+				/*Class<Provider> cls = Provider.class;
 				Method configureMethod = null;
 				configureMethod = cls.getDeclaredMethod("configure", String.class);
 				provider = Security.getProvider(providerType);
 				if(configureMethod != null){
 					provider = (Provider) configureMethod.invoke(provider,pkcs11CfgFilePath);
-				}
+				}*/
+				// https://issues.apache.org/jira/browse/RANGER-2317
+                provider = (Provider) Class.forName("sun.security.pkcs11.SunPKCS11")
+                        .getConstructor(String.class)
+                        .newInstance(pkcs11CfgFilePath);
 			}
 
 			if(provider != null){

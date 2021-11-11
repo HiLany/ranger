@@ -18,7 +18,7 @@
 # Ranger Admin Setup Script
 #
 # This script will install policymanager webapplication under tomcat and also, initialize the database with ranger users/tables.
-
+JAVA_HOME=/opt/dtstack/jdk-11.0.12
 usage() {
         [ "$*" ] && echo "$0: $*"
         sed -n '/^##/,/^$/s/^## \{0,1\}//p' "$0"
